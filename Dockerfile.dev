@@ -1,0 +1,7 @@
+FROM golang:1.15
+
+WORKDIR /hackz-api
+
+COPY . /hackz-api
+
+RUN go get github.com/cosmtrek/air

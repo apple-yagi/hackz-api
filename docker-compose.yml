@@ -1,0 +1,31 @@
+version: "3"
+services:
+  hackz-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: hackz-api
+    env_file:
+      - config/enviroment/.env.development
+    ports:
+      - "8080:8080"
+    links:
+      - db
+    depends_on:
+      - db
+    volumes:
+      - ./:/hackz-api
+    command: air -c config/air/.air.toml
+
+  db:
+    image: postgres:12.5
+    container_name: db
+    env_file:
+      - config/enviroment/.env.development
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
