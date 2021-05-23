@@ -1,17 +1,14 @@
 package main
 
 import (
-	"net/http"
-
-	"github.com/gin-gonic/gin"
+	"hackz-api/pkg/db/pg"
+	"hackz-api/pkg/routes"
 )
 
 func main() {
-	engine := gin.Default()
-	engine.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "hello world",
-		})
-	})
-	engine.Run(":8080")
+	defer pg.CloseConn()
+
+	if err := routes.Router.Run(":8080"); err != nil {
+		return
+	}
 }
